@@ -1,0 +1,41 @@
+{
+  "name": "stats",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",
+    "worker": "node server/worker.js",
+    "mongo": "mkdir -p logs data && mongod --dbpath ./data --logpath ./logs/mongo.log",
+    "mongo-start": "mkdir -p logs data && mongod --dbpath ./data --logpath ./logs/mongo.log --fork",
+    "mongo-stop": "pgrep mongo | xargs kill -2",
+    "lint": "standard --fix \"client/js/**/*.js\" \"server/**/*.js\""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.20.0",
+    "deep-object-diff": "^1.1.0",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "express-graphql": "^0.11.0",
+    "graphql": "^15.3.0",
+    "mongodb": "^3.6.0",
+    "mongoose": "^5.10.2",
+    "morgan": "^1.10.0",
+    "r6api.js": "^1.5.0",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "winston": "^3.3.3"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.11.4",
+    "@babel/preset-env": "^7.11.0",
+    "@babel/preset-react": "^7.10.4",
+    "babel-loader": "^8.1.0",
+    "standard": "^14.3.4",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12"
+  }
+}

@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 
 const { players } = require('../config/config')
 const { logger } = require('./util')
-const R6DataFetcher = require('./lib/fetcher/R6DataFetcher')
+const pollUbisoftApi = require('./jobs/pollUbisoftApi')
 
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0
 
@@ -26,6 +26,8 @@ db.once('open', () => {
 })
 
 const start = () => {
-  const fetchers = players.map((username) => new R6DataFetcher(username))
-  fetchers.forEach((fetcher) => fetcher.start())
+  const pollerStoppers = players.reduce((acc, username) => {
+    acc[username] = pollUbisoftApi.start(username)
+    return acc
+  }, {})
 }

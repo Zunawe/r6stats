@@ -125,7 +125,12 @@ const buildRecord = (data) => {
         headshots: operator.headshots,
         meleeKills: operator.meleeKills,
         playtime: operator.playtime,
-        gadget: operator.gadget
+        gadget: (operator.gadget || []).reduce((acc, gadget) => {
+          return {
+            ...acc,
+            [gadget.name]: gadget.value
+          }
+        }, {})
       }
     }
   })

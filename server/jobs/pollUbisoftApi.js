@@ -16,7 +16,7 @@ const start = (username) => {
       await PlayerDataService.createPlayer(username)
     }
     userId = await r6api.getId('uplay', username).then((response) => response[0].userId)
-    previousRecord = JSON.stringify(await PlayerDataService.getMostRecentRawRecord(username)) || ''
+    previousRecord = JSON.stringify(await PlayerDataService.getMostRecentRecord(username)) || ''
 
     run()
   }
@@ -24,7 +24,7 @@ const start = (username) => {
   const run = async () => {
     const newRecord = await fetch()
     if (newRecord) {
-      await PlayerDataService.addRawRecord(username, newRecord)
+      await PlayerDataService.addRecord(username, newRecord)
       logger.info(`${(new Date(Date.now())).toISOString()} - Added new record for player [${username}]`)
     }
     if (running) setTimeout(run, 60000)

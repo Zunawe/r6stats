@@ -5,7 +5,7 @@ const PlayerSchema = new Schema({
     type: String,
     required: true
   },
-  raw: {
+  records: {
     type: []
   }
 })

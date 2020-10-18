@@ -1,11 +1,11 @@
 const path = require('path')
 const express = require('express')
 const mongoose = require('mongoose')
-const { buildSchema } = require('graphql')
 const { graphqlHTTP } = require('express-graphql')
 
 const { httpLogger, errorLogger } = require('./middleware')
 const { logger } = require('./util')
+const schema = require('./graphql/schema')
 // const indexRouter = require('./routes/index')
 
 logger.info('Starting server')
@@ -28,18 +28,6 @@ if (process.env.NODE_ENV === 'development') {
   app.use(require('webpack-hot-middleware')(compiler))
 }
 
-const schema = buildSchema(`
-  type Query {
-    hello: String
-  }
-`)
-
-const root = {
-  hello: () => {
-    return 'Hello'
-  }
-}
-
 // Middlewares
 app.use(express.json())
 app.use(express.static(path.join(__dirname, '..', '.build')))
@@ -48,7 +36,7 @@ app.use(httpLogger)
 
 app.use('/graphql', graphqlHTTP({
   schema: schema,
-  rootValue: root,
+  // rootValue: root,
   graphiql: true
 }))
 
@@ -60,7 +48,7 @@ const server = app.listen(PORT, () => {
 })
 
 // Connect to the database
-mongoose.connect('mongodb://localhost/siegestats', {
+mongoose.connect(process.env.MONGODB_URI, {
   useCreateIndex: true,
   useNewUrlParser: true,
   useUnifiedTopology: true,

@@ -1,10 +1,10 @@
 const { PlayerModel } = require('../models/Player')
 
-const addRawRecord = async (username, rawData) => {
+const addRecord = async (username, data) => {
   const player = await PlayerModel.findOne({ username })
 
-  rawData.dateAdded = Date.now()
-  player.raw.unshift(rawData)
+  data.dateAdded = Date.now()
+  player.records.unshift(data)
   player.save()
 }
 
@@ -20,19 +20,19 @@ const playerExists = async (username) => {
   return await PlayerModel.exists({ username })
 }
 
-const getMostRecentRawRecord = async (username) => {
+const getMostRecentRecord = async (username) => {
   const player = await PlayerModel.findOne({ username })
   if (!player) {
     return null
   }
 
-  return player.raw[0]
+  return player.records[0]
 }
 
 module.exports = {
-  addRawRecord,
+  addRecord,
   createPlayer,
   getPlayer,
   playerExists,
-  getMostRecentRawRecord
+  getMostRecentRecord
 }

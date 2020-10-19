@@ -2,9 +2,8 @@ const R6API = require('r6api.js')
 
 const { logger } = require('../util')
 const PlayerDataService = require('../services/PlayerDataService')
-const { ubisoftCredentials: { email, password } } = require('../../config/config')
 
-const r6api = new R6API(email, password)
+const r6api = new R6API(process.env.UBI_EMAIL, process.env.UBI_PASSWORD)
 
 const start = (username) => {
   let userId = null

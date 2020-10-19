@@ -31,12 +31,17 @@ const start = (username) => {
   }
 
   const fetch = async () => {
-    const stats = await r6api.getStats('uplay', userId).then((response) => response[0])
-    const record = buildRecord(stats)
-
-    if (!recordsAreEquivalent(record, previousRecord)) {
-      previousRecord = JSON.stringify(record)
-      return record
+    let stats
+    try {
+      stats = await r6api.getStats('uplay', userId).then((response) => response[0])
+      const record = buildRecord(stats)
+  
+      if (!recordsAreEquivalent(record, previousRecord)) {
+        previousRecord = JSON.stringify(record)
+        return record
+      }
+    } catch (error) {
+      logger.error('Something went wrong while fetching data')
     }
     return null
   }
@@ -114,8 +119,7 @@ const buildRecord = (data) => {
     record[key].operators = {}
     for (const operatorKey in data[key].operators) {
       const operator = data[key].operators[operatorKey]
-      record[key].operators[operatorKey] = {
-        name: operator.name,
+      record[key].operators[operator.name] = {
         ctu: operator.ctu,
         role: operator.role,
         kills: operator.kills,

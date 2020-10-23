@@ -9,7 +9,7 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0
 logger.info('Starting worker')
 
 // Connect to the database
-mongoose.connect('mongodb://localhost/siegestats', {
+mongoose.connect(process.env.MONGODB_URI, {
   useCreateIndex: true,
   useNewUrlParser: true,
   useUnifiedTopology: true,

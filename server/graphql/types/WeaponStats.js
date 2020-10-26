@@ -4,9 +4,8 @@ const WeaponStats = new GraphQLObjectType({
   name: 'WeaponStats',
   fields: () => ({
     name: { type: GraphQLString },
-    kills: { type: GraphQLInt },
-    deaths: { type: GraphQLInt },
-    headshots: { type: GraphQLInt }
+    kills: { type: GraphQLInt, resolve: ({ kills }) => kills || 0 },
+    headshots: { type: GraphQLInt, resolve: ({ headshots }) => headshots || 0 }
   })
 })
 

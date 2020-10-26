@@ -6,13 +6,13 @@ const OperatorStats = new GraphQLObjectType({
   name: 'OperatorStats',
   fields: () => ({
     name: { type: GraphQLString },
-    kills: { type: GraphQLInt },
-    deaths: { type: GraphQLInt },
-    headshots: { type: GraphQLInt },
-    wins: { type: GraphQLInt },
-    losses: { type: GraphQLInt },
-    meleeKills: { type: GraphQLInt },
-    playtime: { type: GraphQLInt },
+    kills: { type: GraphQLInt, resolve: ({ kills }) => kills || 0 },
+    deaths: { type: GraphQLInt, resolve: ({ deaths }) => headshots || 0 },
+    headshots: { type: GraphQLInt, resolve: ({ headshots }) => headshots || 0 },
+    wins: { type: GraphQLInt, resolve: ({ wins }) => wins || 0 },
+    losses: { type: GraphQLInt, resolve: ({ losses }) => losses || 0 },
+    meleeKills: { type: GraphQLInt, resolve: ({ meleeKills }) => meleeKills || 0 },
+    playtime: { type: GraphQLInt, resolve: ({ playtime }) => playtime || 0 },
     gadget: { type: GraphQLList(GadgetStats) }
   })
 })

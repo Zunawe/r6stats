@@ -1,6 +1,7 @@
 const _ = require('lodash')
 
 const recordDiff = require('./recordDiff')
+const map2List = require('../lib/map2List')
 
 const createMatch = (record1, record2) => {
   [record1, record2] = record1.dateAdded < record2.dateAdded ? [record1, record2] : [record2, record1]
@@ -31,26 +32,11 @@ const createMatch = (record1, record2) => {
         reinforcementsDeployed: diff.pvp.general.reinforcementsDeployed,
         distanceTravelled: diff.pvp.general.distanceTravelled,
       },
-      weapons: Object.keys(diff.pvp.weapons || []).map((weaponName) => {
-        const weapon = diff.pvp.weapons[weaponName]
-        return {
-          ...weapon,
-          name: weaponName
-        }
-      }),
-      operators: Object.keys(diff.pvp.operators || []).map((operatorName) => {
-        const operator = diff.pvp.operators[operatorName]
-        return {
-          ...operator,
-          gadget: Object.keys(operator.gadget).map((gadgetName) => {
-            return {
-              name: gadgetName,
-              value: operator.gadget[gadgetName]
-            }
-          }),
-          name: operatorName
-        }
-      })
+      weapons: map2List(diff.pvp.weapons, 'name'),
+      operators: map2List(diff.pvp.operators, 'name').map((operator) => ({
+        ...operator,
+        gadget: map2List(operator.gadget, 'name')
+      }))
     }
   }
 

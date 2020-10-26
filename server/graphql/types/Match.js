@@ -1,6 +1,8 @@
-const { GraphQLObjectType, GraphQLInt, GraphQLString } = require('graphql')
+const { GraphQLObjectType, GraphQLInt, GraphQLString, GraphQLList } = require('graphql')
 
 const GeneralStats = require('./GeneralStats')
+const OperatorStats = require('./OperatorStats')
+const WeaponStats = require('./WeaponStats')
 
 const Match = new GraphQLObjectType({
   name: 'Match',
@@ -8,7 +10,9 @@ const Match = new GraphQLObjectType({
     date: { type: GraphQLString },
     mode: { type: GraphQLString },
     queue: { type: GraphQLString },
-    general: { type: GeneralStats }
+    general: { type: GeneralStats },
+    weapons: { type: GraphQLList(WeaponStats) },
+    operators: { type: GraphQLList(OperatorStats) }
   })
 })
 

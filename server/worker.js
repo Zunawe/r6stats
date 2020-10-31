@@ -4,8 +4,6 @@ const { players } = require('../config/config')
 const { logger } = require('./util')
 const pollUbisoftApi = require('./jobs/pollUbisoftApi')
 
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = 0
-
 logger.info('Starting worker')
 
 // Connect to the database

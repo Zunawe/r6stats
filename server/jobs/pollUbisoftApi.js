@@ -9,6 +9,7 @@ const start = (username) => {
   let userId = null
   let previousRecord = ''
   let running = true
+  let retry = false
 
   const initializeAndRun = async () => {
     if (!await PlayerDataService.playerExists(username)) {
@@ -26,7 +27,7 @@ const start = (username) => {
       await PlayerDataService.addRecord(username, newRecord)
       logger.info(`${(new Date(Date.now())).toISOString()} - Added new record for player [${username}]`)
     }
-    if (running) setTimeout(run, 60000)
+    if (running) setTimeout(run, retry ? 0 : 60000)
   }
 
   const fetch = async () => {
@@ -41,7 +42,9 @@ const start = (username) => {
       }
     } catch (error) {
       logger.error('Something went wrong while fetching data')
+      retry = true
     }
+    retry = false
     return null
   }
 

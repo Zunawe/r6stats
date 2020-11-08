@@ -4,6 +4,7 @@ const Stats = require('./Stats')
 const MatchConnection = require('./MatchConnection')
 const createMatch = require('../../lib/createMatch')
 const map2List = require('../../lib/map2List')
+const { base64Encode, base64Decode } = require('../../util')
 
 const Player = new GraphQLObjectType({
   name: 'Player',
@@ -27,7 +28,8 @@ const Player = new GraphQLObjectType({
       resolve: (source, args) => {
         const records = source.records
         let matches = []
-        let recordIndex = 0
+
+        let recordIndex = args.after ? records.findIndex(({ dateAdded }) => dateAdded <= base64Decode(args.after)) : 0
         while (matches.length < args.first && recordIndex < records.length - 1) {
           const match = createMatch(records[recordIndex], records[recordIndex + 1])
           if (match) {
@@ -42,11 +44,15 @@ const Player = new GraphQLObjectType({
         }))
 
         const edges = matches.map((match) => ({
-          cursor: match.date,
+          cursor: base64Encode(match.date.toString()),
           node: match
         }))
 
-        const pageInfo = {}
+        const pageInfo = {
+          hasNextPage: recordIndex < records.length - 1,
+          startCursor: edges[0].cursor,
+          endCursor: edges[edges.length - 1].cursor
+        }
 
         return {
           pageInfo,

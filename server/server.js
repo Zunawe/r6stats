@@ -6,7 +6,7 @@ const { graphqlHTTP } = require('express-graphql')
 const { httpLogger, errorLogger } = require('./middleware')
 const { logger } = require('./util')
 const schema = require('./graphql/schema')
-// const indexRouter = require('./routes/index')
+const indexRouter = require('./routes/index')
 
 logger.info('Starting server')
 
@@ -21,9 +21,7 @@ if (process.env.NODE_ENV === 'development') {
   const compiler = webpack(webpackConfig)
 
   app.use(require('webpack-dev-middleware')(compiler, {
-    noInfo: true,
-    publicPath: webpackConfig.output.publicPath,
-    stats: false
+    publicPath: webpackConfig.output.publicPath
   }))
   app.use(require('webpack-hot-middleware')(compiler))
 }
@@ -34,9 +32,9 @@ app.use(express.static(path.join(__dirname, '..', '.build')))
 
 app.use(httpLogger)
 
+app.use('/', indexRouter)
 app.use('/graphql', graphqlHTTP({
   schema: schema,
-  // rootValue: root,
   graphiql: true
 }))
 

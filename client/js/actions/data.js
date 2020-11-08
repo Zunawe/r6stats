@@ -8,7 +8,7 @@ export const setCurrentStats = (data) => ({
 
 export const refreshCurrentStats = () => {
   return async (dispatch) => {
-    const response = await axios.post('http://192.168.1.8:8000/graphql', {
+    const response = await axios.post('/graphql', {
       query: '{ player(username: "Zunawe") { username } }'
     })
     dispatch(setCurrentStats(response.data.data))

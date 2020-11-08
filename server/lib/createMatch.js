@@ -10,7 +10,7 @@ const createMatch = (record1, record2) => {
 
   if (diff.pvp) {
     match = {
-      date: record1.dateAdded,
+      date: record2.dateAdded,
       mode: diff.pvp.modes ? Object.keys(diff.pvp.modes)[0].toUpperCase() : null,
       queue: Object.keys(diff.pvp.queues)[0].toUpperCase(),
       general: {

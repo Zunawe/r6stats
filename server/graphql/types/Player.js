@@ -59,9 +59,9 @@ const Player = new GraphQLObjectType({
 
         matches = matches.map((match) => ({
           ...match,
-          date: args.groupBy && args.groupBy === 'INDIVIDUAL' ? match.date : moment(match.date).startOf(args.groupBy.toLowerCase()).valueOf(),
-          mode: args.groupBy && args.groupBy === 'INDIVIDUAL' ? match.mode : null,
-          queue: args.groupBy && args.groupBy === 'INDIVIDUAL' ? match.queue : null,
+          date: args.groupBy && args.groupBy !== 'INDIVIDUAL' ? moment(match.date).startOf(args.groupBy.toLowerCase()).valueOf() : match.date,
+          mode: args.groupBy && args.groupBy !== 'INDIVIDUAL' ? null : match.mode,
+          queue: args.groupBy && args.groupBy !== 'INDIVIDUAL' ? null : match.queue,
           weapons: match.weapons.filter(({ kills }) => kills)
         }))
 

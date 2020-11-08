@@ -1,7 +1,9 @@
 node_modules/
 logs/
-data/
+
+.build/
 
 .env
+.vscode
 
 .DS_STORE

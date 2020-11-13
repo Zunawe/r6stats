@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node index.js",
-    "dev": "nodemon index.js --ignore client",
+    "dev": "nodemon index.js -w server -w config",
     "worker": "node server/worker.js",
     "build": "webpack --config webpack.development.config.js",
     "build:dist": "webpack --config webpack.production.config.js",

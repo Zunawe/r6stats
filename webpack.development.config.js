@@ -11,6 +11,9 @@ module.exports = {
   },
   mode: 'development',
   devtool: 'eval-source-map',
+  watchOptions: {
+    ignored: /node_modules/
+  },
   module: {
     rules: [
       {

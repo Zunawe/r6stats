@@ -3,12 +3,16 @@ import c3 from 'c3'
 import React, { useEffect, useState } from 'react'
 
 const Chart = (props) => {
+  const {
+    username
+  } = props
+
   const [data, setData] = useState()
 
   useEffect(() => {
     axios.post('/graphql', {
       query: `query {
-        player(username: "Zunawe") {
+        player(username: "${username}") {
           matches(first: 7, groupBy: DAY) {
             edges {
               node {
@@ -33,7 +37,7 @@ const Chart = (props) => {
       })
     }).then(setData)
       .catch((error) => console.error(error))
-  }, [])
+  }, [username])
 
   useEffect(() => {
     if (!data) return

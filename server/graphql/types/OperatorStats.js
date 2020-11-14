@@ -7,7 +7,7 @@ const OperatorStats = new GraphQLObjectType({
   fields: () => ({
     name: { type: GraphQLString },
     kills: { type: GraphQLInt, resolve: ({ kills }) => kills || 0 },
-    deaths: { type: GraphQLInt, resolve: ({ deaths }) => headshots || 0 },
+    deaths: { type: GraphQLInt, resolve: ({ deaths }) => deaths || 0 },
     headshots: { type: GraphQLInt, resolve: ({ headshots }) => headshots || 0 },
     wins: { type: GraphQLInt, resolve: ({ wins }) => wins || 0 },
     losses: { type: GraphQLInt, resolve: ({ losses }) => losses || 0 },

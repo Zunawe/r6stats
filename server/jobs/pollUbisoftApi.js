@@ -35,7 +35,7 @@ const start = (username) => {
     try {
       stats = await r6api.getStats('uplay', userId).then((response) => response[0])
       const record = buildRecord(stats)
-  
+
       if (!recordsAreEquivalent(record, previousRecord)) {
         previousRecord = JSON.stringify(record)
         return record

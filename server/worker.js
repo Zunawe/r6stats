@@ -24,7 +24,7 @@ db.once('open', () => {
 })
 
 const start = () => {
-  const pollerStoppers = players.reduce((acc, username) => {
+  players.reduce((acc, username) => {
     acc[username] = pollUbisoftApi.start(username)
     return acc
   }, {})

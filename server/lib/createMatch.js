@@ -1,5 +1,3 @@
-const _ = require('lodash')
-
 const recordDiff = require('./recordDiff')
 const map2List = require('../lib/map2List')
 
@@ -30,7 +28,7 @@ const createMatch = (record1, record2) => {
         rappelBreaches: diff.pvp.general.rappelBreaches,
         barricadesDeployed: diff.pvp.general.barricadesDeployed,
         reinforcementsDeployed: diff.pvp.general.reinforcementsDeployed,
-        distanceTravelled: diff.pvp.general.distanceTravelled,
+        distanceTravelled: diff.pvp.general.distanceTravelled
       },
       weapons: map2List(diff.pvp.weapons, 'name'),
       operators: map2List(diff.pvp.operators, 'name').map((operator) => ({

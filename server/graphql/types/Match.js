@@ -1,4 +1,4 @@
-const { GraphQLObjectType, GraphQLInt, GraphQLString, GraphQLList } = require('graphql')
+const { GraphQLObjectType, GraphQLString, GraphQLList } = require('graphql')
 
 const GeneralStats = require('./GeneralStats')
 const OperatorStats = require('./OperatorStats')

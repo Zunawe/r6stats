@@ -35,7 +35,6 @@ const Player = new GraphQLObjectType({
         let recordIndex = args.after ? records.findIndex(({ dateAdded }) => dateAdded <= base64Decode(args.after)) : 0
         while (matches.length < args.first && recordIndex < records.length - 1) {
           const lastRecord = records[recordIndex]
-          let firstRecord
           ++recordIndex
 
           while (recordIndex < records.length) {
@@ -49,7 +48,7 @@ const Player = new GraphQLObjectType({
               break
             }
           }
-          firstRecord = records[recordIndex] || records[recordIndex - 1]
+          const firstRecord = records[recordIndex] || records[recordIndex - 1]
 
           const match = createMatch(lastRecord, firstRecord)
           if (match) {

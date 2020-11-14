@@ -1,4 +1,4 @@
-const { GraphQLSchema, GraphQLObjectType, GraphQLString, GraphQLInt } = require('graphql')
+const { GraphQLSchema, GraphQLObjectType, GraphQLString } = require('graphql')
 
 const PlayerDataService = require('../services/PlayerDataService')
 const Player = require('./types/Player')

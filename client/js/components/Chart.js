@@ -66,7 +66,7 @@ const Chart = (props) => {
   }, [data])
 
   return (
-    <div id="chart" />
+    <div id='chart' />
   )
 }
 

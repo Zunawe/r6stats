@@ -7,9 +7,47 @@ const Chart = (props) => {
     username
   } = props
 
-  const [data, setData] = useState()
+  const [data, setData] = useState({})
+  const [chart, setChart] = useState()
 
   useEffect(() => {
+    if (!Object.values(data).length) return
+
+    if (!chart) {
+      setChart(c3.generate({
+        data: {
+          x: 'x',
+          xFormat: '%Q',
+          columns: [
+            data[username].reduce((acc, [date]) => acc.concat(date), ['x']),
+            data[username].reduce((acc, [, kdr]) => acc.concat(kdr), ['KDR'])
+          ]
+        },
+        axis: {
+          x: {
+            type: 'timeseries',
+            tick: {
+              format: '%Y-%m-%d'
+            }
+          },
+          y: {
+            min: 0
+          }
+        }
+      }))
+    } else {
+      chart.load({
+        columns: [
+          data[username].reduce((acc, [date]) => acc.concat(date), ['x']),
+          data[username].reduce((acc, [, kdr]) => acc.concat(kdr), ['KDR'])
+        ]
+      })
+    }
+  }, [data])
+
+  useEffect(() => {
+    if (!username) return
+
     axios.post('/graphql', {
       query: `query {
         player(username: "${username}") {
@@ -31,39 +69,24 @@ const Chart = (props) => {
         throw response.data.errors
       }
       return response.data.data
-    }).then((data) => {
-      return data.player.matches.edges.map(({ node }) => {
+    }).then((newData) => {
+      if (!newData || !newData.player) {
+        return null
+      }
+
+      return newData.player.matches.edges.map(({ node }) => {
         return [node.date, node.general.kills / node.general.deaths]
       })
-    }).then(setData)
+    }).then((newEntry) => {
+      setData({
+        ...data,
+        [username]: newEntry
+      })
+    })
       .catch((error) => console.error(error))
   }, [username])
 
-  useEffect(() => {
-    if (!data) return
-
-    c3.generate({
-      data: {
-        x: 'x',
-        xFormat: '%Q',
-        columns: [
-          data.reduce((acc, [date]) => acc.concat(date), ['x']),
-          data.reduce((acc, [, kdr]) => acc.concat(kdr), ['Kill/Death Ratio'])
-        ]
-      },
-      axis: {
-        x: {
-          type: 'timeseries',
-          tick: {
-            format: '%Y-%m-%d'
-          }
-        },
-        y: {
-          min: 0
-        }
-      }
-    })
-  }, [data])
+  if (!username) return null
 
   return (
     <div id='chart' />

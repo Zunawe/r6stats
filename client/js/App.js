@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react'
-import { IconButton, TextField } from '@material-ui/core'
+import { IconButton, TextField, Container, Paper } from '@material-ui/core'
 import { ArrowForward } from '@material-ui/icons'
 
 // import { DataContext } from './context/data'
@@ -19,13 +19,17 @@ const App = () => {
 
   return (
     <>
-      <form onSubmit={handleClick}>
-        <TextField id='username' label='Username' value={username} onChange={handleChange} />
-        <IconButton type='submit'>
-          <ArrowForward />
-        </IconButton>
-      </form>
-      <Chart username={stickyUsername} />
+      <Container>
+        <Paper>
+          <form onSubmit={handleClick}>
+            <TextField id='username' label='Username' value={username} onChange={handleChange} />
+            <IconButton type='submit'>
+              <ArrowForward />
+            </IconButton>
+          </form>
+          <Chart username={stickyUsername} />
+        </Paper>
+      </Container>
     </>
   )
 }
